@@ -12,7 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+//import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -41,13 +41,13 @@ public class SecurityConfig {
                 .authenticationManager(authenticationManager)
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/register", "/login").permitAll()
-                        .requestMatchers("/user").authenticated()
+                        .requestMatchers("/register", "/login", "/api/common-codes").permitAll()
+                        .requestMatchers("/user").authenticated() // Allow authenticated users to access /user
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
-
 
         return http.build();
     }

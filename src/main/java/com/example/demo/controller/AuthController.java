@@ -59,6 +59,31 @@ public class AuthController {
         }
     }
 
+//    @PostMapping("/login")
+//    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+//        try {
+//            authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(authenticationRequest.getUsernameOrEmail(), authenticationRequest.getPassword())
+//            );
+//        } catch (BadCredentialsException e) {
+//            throw new Exception("Incorrect username or password", e);
+//        }
+//
+//        // Lấy thông tin người dùng từ userService
+//        final UserDetails userDetails = userService.loadUserByUsername(authenticationRequest.getUsernameOrEmail());
+//
+//        // Tạo JWT token
+//        final String jwt = jwtUtil.generateToken(userDetails);
+//
+//        // Trả về thông tin người dùng và JWT
+//        User user = userService.getUserByUsernameOrEmail(authenticationRequest.getUsernameOrEmail());
+//
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("token", jwt);
+//
+//        return ResponseEntity.ok(response);
+//    }
+
     @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         try {
@@ -80,6 +105,7 @@ public class AuthController {
 
         Map<String, Object> response = new HashMap<>();
         response.put("token", jwt);
+        response.put("user", UserResponseDTO.fromUser(user)); // Thêm thông tin người dùng vào response
 
         return ResponseEntity.ok(response);
     }
